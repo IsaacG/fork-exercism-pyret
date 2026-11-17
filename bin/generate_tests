@@ -138,6 +138,7 @@ def jinja_env(exercise: pathlib.Path) -> jinja2.Environment:
     env.filters["quote"] = quote
     env.filters["camel_to_kebab"] = camel_to_kebab
     env.filters["assert_raises"] = assert_raises
+    env.tests["exceeds"] = lambda obj, size: len(quote(obj)) > size
     return env
 
 
@@ -147,6 +148,7 @@ def generate(specs: pathlib.Path, exercise: pathlib.Path) -> None:
     data = {
         "cases": get_cases(specs, exercise),
         "include_solution": f'include file("{config["files"]["solution"][0]}")',
+        "slug": exercise.name,
     }
 
     # Render the template.
